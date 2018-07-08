@@ -1,11 +1,10 @@
-const { bot, botan } = require('./config');
+const { bot } = require('./config');
 
 //Command
 bot.onText(/\/start/, message => {
   const chatId = message.chat.id;
 
   bot.sendMessage(chatId, 'Hey, I`m ready to start!');
-  botan.track(message, '/start');
 });
 
 //Keyboard
@@ -24,7 +23,6 @@ bot.onText(/\/keyboard/, message => {
 
 
   bot.sendMessage(chatId, 'Select a transport', opts);
-  botan.track(message, '/keyboard');
 });
 
 //Inline keyboard
@@ -40,8 +38,7 @@ bot.onText(/\/inlinekeyboard/, message => {
     }
   };
 
-  bot.sendMessage(chatId, 'Random question ?', opts);
-  botan.track(message, '/inline keyboard');
+  bot.sendMessage(chatId, 'Random question ?', opts); 
 });
 
 bot.on('callback_query', message => {
@@ -54,6 +51,4 @@ bot.on('callback_query', message => {
 //Any message
 bot.on('message', message => {
   const chatId = message.chat.id;
-
-  botan.track(message, 'message');
 });

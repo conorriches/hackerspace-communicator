@@ -6,10 +6,7 @@ const TOKEN = process.env.TOKEN || 'INSERT_BOT_TOKEN';
 // Heroku Config Vars
 const url = process.env.APP_URL;
 const port = process.env.PORT || 443;
-const metrics = process.env.METRICS;
 
-// Init Botanio
-const botan = require('botanio')(metrics);
 
 let bot;
 if (process.env.NODE_ENV === 'dev') {
@@ -31,6 +28,5 @@ if (process.env.NODE_ENV === 'dev') {
 }
 
 module.exports = {
-  bot: bot,
-  botan: botan
+  bot: bot
 };
