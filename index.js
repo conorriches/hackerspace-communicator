@@ -10,7 +10,9 @@ const client = mqtt.createClient(mqtt_url.port, mqtt_url.hostname, {
 let lastMovement = 0;
 
 
-bot.onText(/\/status/, message => bot.sendMessage(message.chat.id, '🤖!'));
+bot.onText(/\/status/, message => {
+  bot.sendMessage(message.chat.id, '🤖!')
+});
 
 bot.onText(/\/occupied/, message => {
   const chatId = message.chat.id;
@@ -21,19 +23,19 @@ bot.onText(/\/occupied/, message => {
 
 
 
-client.on('connect', function() { // When connected
+client.on('connect', function () { // When connected
 
   // subscribe to a topic
-  client.subscribe('space/sensor/movement', function() {
+  client.subscribe('space/sensor/movement', function () {
     // when a message arrives, do something with it
-    client.on('message', function(topic, message, packet) {
+    client.on('message', function (topic, message, packet) {
       console.log("Received '" + message + "' on '" + topic + "'");
       lastMovement = Math.floor(Date.now() / 1000);
     });
   });
 
   // publish a message to a topic
-  client.publish('hello/world', 'my message', function() {
+  client.publish('hello/world', 'my message', function () {
     console.log("Message is published");
     client.end(); // Close the connection when published
   });
@@ -73,13 +75,13 @@ bot.onText(/\/inlinekeyboard/, message => {
   const opts = {
     reply_markup: {
       inline_keyboard: [[
-          { text: '✅ Like', callback_data: 'Yay' },
-          { text: '❌ Dislike', callback_data: 'Nah' }
-        ]]
+        { text: '✅ Like', callback_data: 'Yay' },
+        { text: '❌ Dislike', callback_data: 'Nah' }
+      ]]
     }
   };
 
-  bot.sendMessage(chatId, 'Random question ?', opts); 
+  bot.sendMessage(chatId, 'Random question ?', opts);
 });
 
 bot.on('callback_query', message => {
