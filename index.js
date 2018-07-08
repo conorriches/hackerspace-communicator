@@ -1,11 +1,52 @@
 const { bot } = require('./config');
+const mqtt = require('mqtt'), url = require('url');
+const mqtt_url = url.parse(process.env.CLOUDMQTT_URL || 'mqtt://localhost:1883');
+const auth = (mqtt_url.auth || ':').split(':');
+const client = mqtt.createClient(mqtt_url.port, mqtt_url.hostname, {
+  username: auth[0],
+  password: auth[1]
+});
 
-//Command
-bot.onText(/\/start/, message => {
+let lastMovement = 0;
+
+
+bot.onText(/\/status/, message => bot.sendMessage(message.chat.id, '🤖!'));
+
+bot.onText(/\/occupied/, message => {
   const chatId = message.chat.id;
 
-  bot.sendMessage(chatId, 'Hey, I`m ready to start!');
+  bot.sendMessage(chatId, "Last movement was at: " + lastMovement);
 });
+
+
+
+
+client.on('connect', function() { // When connected
+
+  // subscribe to a topic
+  client.subscribe('space/sensor/movement', function() {
+    // when a message arrives, do something with it
+    client.on('message', function(topic, message, packet) {
+      console.log("Received '" + message + "' on '" + topic + "'");
+      lastMovement = Math.floor(Date.now() / 1000);
+    });
+  });
+
+  // publish a message to a topic
+  client.publish('hello/world', 'my message', function() {
+    console.log("Message is published");
+    client.end(); // Close the connection when published
+  });
+});
+
+
+
+
+
+
+
+
+
 
 //Keyboard
 bot.onText(/\/keyboard/, message => {
