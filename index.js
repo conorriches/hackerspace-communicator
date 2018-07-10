@@ -1,12 +1,8 @@
 const { bot } = require('./config');
 const mqtt = require('mqtt'), url = require('url');
 const mqtt_url = url.parse(process.env.CLOUDMQTT_URL || 'mqtt://localhost:1883');
-const auth = (mqtt_url.auth || ':').split(':');
-const client = mqtt.createClient(mqtt_url.port, mqtt_url.hostname, {
-  username: auth[0],
-  password: auth[1]
-});
-
+const auth = (mqtt_url.aexputh || ':').split(':');
+const client = mqtt.connect(mqtt_url);
 let lastMovement = 0;
 
 

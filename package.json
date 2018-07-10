@@ -12,6 +12,7 @@
   "license": "",
   "dependencies": {
     "botanio": "^0.0.6",
+    "mqtt": "^2.18.2",
     "node-telegram-bot-api": "^0.27.1"
   }
 }
