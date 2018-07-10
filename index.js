@@ -11,7 +11,7 @@ let lastMovement = 0;
 
 
 bot.onText(/\/status/, message => {
-  bot.sendMessage(message.chat.id, '🤖!')
+  bot.sendMessage(message.chat.id, '🤖!');
 });
 
 bot.onText(/\/occupied/, message => {
