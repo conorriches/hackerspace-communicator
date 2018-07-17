@@ -5,6 +5,13 @@ const auth = (mqtt_url.aexputh || ':').split(':');
 const client = mqtt.connect(mqtt_url, {username:auth[0], password: auth[1]});
 let lastMovement = 0;
 
+function convertEpochToSpecificTimezone(epoch, offset){
+  var d = new Date(epoch);
+  var utc = d.getTime() + (d.getTimezoneOffset() * 60000);  //This converts to UTC 00:00
+  var nd = new Date(utc + (3600000*offset));
+  return nd.toLocaleString();
+}
+
 
 bot.onText(/\/status/, message => {
   bot.sendMessage(message.chat.id, '🤖!');
@@ -13,8 +20,7 @@ bot.onText(/\/status/, message => {
 
 bot.onText(/\/occupied/, message => {
   const chatId = message.chat.id;
-  var d = new Date(lastMovement); // The 0 there is the key, which sets the date to the epoch
-  let sec = d.setUTCSeconds(utcSeconds);
+  let sec = convertEpochToSpecificTimezone(lastMovement, 0);
   bot.sendMessage(chatId, "Last movement was at: " + sec);
 });
 
