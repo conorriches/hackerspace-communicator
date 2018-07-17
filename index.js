@@ -20,7 +20,7 @@ bot.onText(/\/status/, message => {
 
 bot.onText(/\/occupied/, message => {
   const chatId = message.chat.id;
-  let sec = convertEpochToSpecificTimezone(lastMovement, 0);
+  let sec = convertEpochToSpecificTimezone(lastMovement, 1000);
   bot.sendMessage(chatId, "Last movement was at: " + sec);
 });
 
