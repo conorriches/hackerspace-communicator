@@ -15,7 +15,7 @@ function convertEpochToSpecificTimezone(timestamp){
   var minutes = date.getMinutes();
   var seconds = date.getSeconds();
   
-  return(year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds);
+  return(hours + ":" + minutes + " on " + day + "/" + month);
 }
 
 
