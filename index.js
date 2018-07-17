@@ -29,6 +29,7 @@ client.on('connect', function () { // When connected
   client.subscribe('/space/sensor/movement', function () {
     // when a message arrives, do something with it
     client.on('message', function (topic, message, packet) {
+      console.log("CONNECTED");
       console.log("Received '" + message + "' on '" + topic + "'");
       lastMovement = Math.floor(Date.now() / 1000);
     });
@@ -37,7 +38,6 @@ client.on('connect', function () { // When connected
   // publish a message to a topic
   client.publish('hello/world', 'my message', function () {
     console.log("Message is published");
-    client.end(); // Close the connection when published
   });
 });
 
