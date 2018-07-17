@@ -5,11 +5,17 @@ const auth = (mqtt_url.aexputh || ':').split(':');
 const client = mqtt.connect(mqtt_url, {username:auth[0], password: auth[1]});
 let lastMovement = 0;
 
-function convertEpochToSpecificTimezone(epoch, offset){
-  var d = new Date(epoch);
-  var utc = d.getTime() + (d.getTimezoneOffset() * 60000);  //This converts to UTC 00:00
-  var nd = new Date(utc + (3600000*offset));
-  return nd.toLocaleString();
+function convertEpochToSpecificTimezone(timestamp){
+  var date = new Date(timestamp*1000);
+  
+  var year = date.getFullYear();
+  var month = date.getMonth() + 1;
+  var day = date.getDate();
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+  var seconds = date.getSeconds();
+  
+  return(year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds);
 }
 
 
@@ -20,7 +26,7 @@ bot.onText(/\/status/, message => {
 
 bot.onText(/\/occupied/, message => {
   const chatId = message.chat.id;
-  let sec = convertEpochToSpecificTimezone(lastMovement, 1000);
+  let sec = convertEpochToSpecificTimezone(lastMovement);
   bot.sendMessage(chatId, "Last movement was at: " + sec);
 });
 
