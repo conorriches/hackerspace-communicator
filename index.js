@@ -13,7 +13,9 @@ bot.onText(/\/status/, message => {
 
 bot.onText(/\/occupied/, message => {
   const chatId = message.chat.id;
-  bot.sendMessage(chatId, "Last movement was at: " + lastMovement);
+  var d = new Date(lastMovement); // The 0 there is the key, which sets the date to the epoch
+  let sec = d.setUTCSeconds(utcSeconds);
+  bot.sendMessage(chatId, "Last movement was at: " + sec);
 });
 
 bot.onText(/\meowwwwwwwwww/, message => {
@@ -28,12 +30,8 @@ client.on('connect', function () { // When connected
 
   // subscribe to a topic
   client.subscribe('/space/sensor/movement', function () {
-    bot.sendMessage(301807021, "subscribed");
     // when a message arrives, do something with it
     client.on('message', function (topic, message, packet) {
-      bot.sendMessage(301807021, "got message");
-      console.log("CONNECTED");
-      console.log("Received '" + message + "' on '" + topic + "'");
       lastMovement = Math.floor(Date.now() / 1000);
     });
   });
