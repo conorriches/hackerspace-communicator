@@ -27,18 +27,16 @@ client.on('connect', function () { // When connected
 
   // subscribe to a topic
   client.subscribe('/space/sensor/movement', function () {
+    bot.sendMessage(chatId, "subscribed");
     // when a message arrives, do something with it
     client.on('message', function (topic, message, packet) {
+      bot.sendMessage(chatId, "got message");
       console.log("CONNECTED");
       console.log("Received '" + message + "' on '" + topic + "'");
       lastMovement = Math.floor(Date.now() / 1000);
     });
   });
 
-  // publish a message to a topic
-  client.publish('hello/world', 'my message', function () {
-    console.log("Message is published");
-  });
 });
 
 
