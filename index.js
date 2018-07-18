@@ -23,7 +23,7 @@ bot.onText(/\/status/, message => {
 bot.onText(/\/occupied/, message => {
   const chatId = message.chat.id;
   let sec = convertEpochToSpecificTimezone(lastMovement);
-  bot.sendMessage(chatId, "🙋 last movement noted at " + sec);
+  bot.sendMessage(chatId, "ℹ️ last movement 👀 @ " + sec);
 });
 
 bot.onText(/\meowwwwwwwwww/, message => {
