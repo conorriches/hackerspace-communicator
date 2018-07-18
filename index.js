@@ -7,14 +7,10 @@ let lastMovement = 0;
 
 function convertEpochToSpecificTimezone(timestamp){
   var date = new Date(timestamp*1000);
-  
-  var year = date.getFullYear();
-  var month = date.getMonth() + 1;
-  var day = date.getDate();
   var hours = date.getHours();
   var minutes = date.getMinutes();
-  var seconds = date.getSeconds();
-  
+  if(hours < 10) hours = "0" + hours;
+  if(minutes < 10) minutes = "0" + minutes;
   return(hours + ":" + minutes);
 }
 
@@ -27,7 +23,7 @@ bot.onText(/\/status/, message => {
 bot.onText(/\/occupied/, message => {
   const chatId = message.chat.id;
   let sec = convertEpochToSpecificTimezone(lastMovement);
-  bot.sendMessage(chatId, "Last movement was at: " + sec);
+  bot.sendMessage(chatId, "🙋 last movement noted at " + sec);
 });
 
 bot.onText(/\meowwwwwwwwww/, message => {
