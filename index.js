@@ -15,7 +15,7 @@ function convertEpochToSpecificTimezone(timestamp){
   var minutes = date.getMinutes();
   var seconds = date.getSeconds();
   
-  return(hours + ":" + minutes + " on " + day + "/" + month);
+  return(hours + ":" + minutes);
 }
 
 
@@ -35,7 +35,10 @@ bot.onText(/\meowwwwwwwwww/, message => {
   bot.sendMessage(chatId, "🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱");
 });
 
-
+bot.onText(/\marco/, message => {
+  const chatId = message.chat.id;
+  bot.sendMessage(chatId, "omg that isn't even implemented");
+});
 
 
 client.on('connect', function () { // When connected
