@@ -3,7 +3,7 @@ const mqtt = require('mqtt'), url = require('url');
 const mqtt_url = url.parse(process.env.CLOUDMQTT_URL || 'mqtt://localhost:1883');
 const auth = (mqtt_url.aexputh || ':').split(':');
 const client = mqtt.connect(mqtt_url, { username: auth[0], password: auth[1] });
-let chatId = -1001297263871;
+
 let pendingBuzz = 0;
 const allowedChats = [-1001297263871, 301807021];
 
@@ -21,7 +21,7 @@ let authenticate = (chat_id) => {
 
 bot.onText(/\/status/, message => {
   authenticate(message.chat.id).then(() => {
-    bot.sendMessage(chatId, '🤖!');
+    bot.sendMessage(message.chat.id, '🤖!');
   });
 });
 
@@ -29,9 +29,9 @@ bot.onText(/\/buzz/, message => {
 
   authenticate(message.chat.id).then(() => {
     if (pendingBuzz) {
-      bot.sendMessage(chatId, '🛎️⛔ => Unanswered buzz already sent recently');
+      bot.sendMessage(message.chat.id, '🛎️⛔ => Unanswered buzz already sent recently');
     } else {
-      bot.sendMessage(chatId, '🛎️✅ => Buzz sent');
+      bot.sendMessage(message.chat.id, '🛎️✅ => Buzz sent');
       client.publish('buzz/syn', "")
       pendingBuzz = 1;
     }
@@ -41,13 +41,13 @@ bot.onText(/\/buzz/, message => {
 
 bot.onText(/\meowwwwwwwwww/, message => {
   authenticate(message.chat.id).then(() => {
-    bot.sendMessage(chatId, "🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱");
+    bot.sendMessage(message.chat.id, "🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱");
   });
 });
 
 bot.onText(/\marco/, message => {
   authenticate(message.chat.id).then(() => {
-    bot.sendMessage(chatId, "omg that isn't even implemented");
+    bot.sendMessage(message.chat.id, "omg that isn't even implemented");
   });
 });
 
@@ -63,56 +63,15 @@ client.on('connect', function () { // When connected
 
       if (topic === 'buzz/ack') {
         console.log(message);
-        pendingBuzz && bot.sendMessage(chatId, '🛎️👋 => Buzz acknowleged from the space');
+        allowedChats.forEach(chatId => {
+          pendingBuzz && bot.sendMessage(chatId, '🛎️👋 => Buzz acknowleged from the space');
+        })
         pendingBuzz = 0;
       }
 
     });
   });
 
-});
-
-
-
-
-
-
-
-
-
-
-//Keyboard
-bot.onText(/\/keyboard/, message => {
-  const chatId = message.chat.id;
-
-  const opts = {
-    reply_markup: {
-      keyboard: [
-        ['🚲 Bike', '🚗 Car']
-      ],
-      resize_keyboard: true,
-      one_time_keyboard: true
-    }
-  };
-
-
-  bot.sendMessage(chatId, 'Select a transport', opts);
-});
-
-//Inline keyboard
-bot.onText(/\/inlinekeyboard/, message => {
-  const chatId = message.chat.id;
-
-  const opts = {
-    reply_markup: {
-      inline_keyboard: [[
-        { text: '✅ Like', callback_data: 'Yay' },
-        { text: '❌ Dislike', callback_data: 'Nah' }
-      ]]
-    }
-  };
-
-  bot.sendMessage(chatId, 'Random question ?', opts);
 });
 
 bot.on('callback_query', message => {
@@ -122,7 +81,3 @@ bot.on('callback_query', message => {
   bot.sendMessage(msg.chat.id, answer);
 });
 
-//Any message
-bot.on('message', message => {
-  const chatId = message.chat.id;
-});
