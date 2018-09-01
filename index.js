@@ -12,7 +12,7 @@ let authenticate = (chat_id) => {
     if(allowedChats.indexOf(chat_id) > 0){
       resolve();
     }else{
-      bot.sendMessage(chatId, '⛔ ENOENT ⛔');
+      bot.sendMessage(chat_id, '⛔ ENOENT ⛔');
       reject()
     }
   })
