@@ -18,7 +18,7 @@ bot.onText(/\/buzz/, message => {
     bot.sendMessage(chatId, '🛎️⛔ => Unanswered buzz already sent recently');
   }else{
     bot.sendMessage(chatId, '🛎️✅ => Buzz sent');
-    client.publish('buzz', "")
+    client.publish('buzz/syn', "")
     pendingBuzz = 1;
   }
 });
@@ -42,9 +42,13 @@ client.on('connect', function () { // When connected
     // when a message arrives, do something with it
     client.on('message', function (topic, message, packet) {
       console.log("===================== GOT MESSAGE ON " + topic + " TOPIC");
-      console.log(message);
-      bot.sendMessage(chatId, '🛎️👋 => Buzz acknowleged from the space');
-      pendingBuzz = 0;
+      
+      if(topic === '/buzz/ack'){
+        console.log(message);
+        bot.sendMessage(chatId, '🛎️👋 => Buzz acknowleged from the space');
+        pendingBuzz = 0;
+      }
+      
     });
   });
 
