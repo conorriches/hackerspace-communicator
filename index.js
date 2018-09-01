@@ -43,7 +43,7 @@ client.on('connect', function () { // When connected
     client.on('message', function (topic, message, packet) {
       console.log("===================== GOT MESSAGE ON " + topic + " TOPIC");
       
-      if(topic === '/buzz/ack'){
+      if(topic === 'buzz/ack'){
         console.log(message);
         bot.sendMessage(chatId, '🛎️👋 => Buzz acknowleged from the space');
         pendingBuzz = 0;
