@@ -64,7 +64,7 @@ client.on('connect', function () { // When connected
     client.on('message', function (topic, message, packet) {
 
       if (topic === 'buzz/ack') {
-        aactiveChats.forEach(chatId => {
+        activeChats.forEach(chatId => {
           pendingBuzz && bot.sendMessage(chatId, '🛎️👋 => Buzz acknowleged from the space');
         });
         pendingBuzz = 0;
