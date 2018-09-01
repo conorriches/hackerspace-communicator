@@ -2,37 +2,33 @@ const { bot } = require('./config');
 const mqtt = require('mqtt'), url = require('url');
 const mqtt_url = url.parse(process.env.CLOUDMQTT_URL || 'mqtt://localhost:1883');
 const auth = (mqtt_url.aexputh || ':').split(':');
-const client = mqtt.connect(mqtt_url, {username:auth[0], password: auth[1]});
-let lastMovement = 0;
-
-function convertEpochToSpecificTimezone(timestamp){
-  var date = new Date(timestamp*1000);
-  var hours = date.getHours();
-  var minutes = date.getMinutes();
-  if(hours < 10) hours = "0" + hours;
-  if(minutes < 10) minutes = "0" + minutes;
-  return(hours + ":" + minutes);
-}
-
+const client = mqtt.connect(mqtt_url, { username: auth[0], password: auth[1] });
+let chatId; 
+let pendingBuzz = 0;
 
 bot.onText(/\/status/, message => {
+  chatId = message.chat.id;
   bot.sendMessage(message.chat.id, '🤖!');
-  console.error(message.chat.id);
 });
 
-bot.onText(/\/occupied/, message => {
-  const chatId = message.chat.id;
-  let sec = convertEpochToSpecificTimezone(lastMovement);
-  bot.sendMessage(chatId, "ℹ️ last movement 👀 @ " + sec);
+bot.onText(/\/buzz/, message => {
+  chatId = message.chat.id;
+  if (pendingBuzz){
+    bot.sendMessage(chatId, '🛎️⛔ => Unanswered buzz already sent recently');
+  }else{
+    bot.sendMessage(chatId, '🛎️✅ => Buzz sent');
+    client.publish('buzz', messsage)
+    pendingBuzz = 1;
+  }
 });
 
 bot.onText(/\meowwwwwwwwww/, message => {
-  const chatId = message.chat.id;
+  chatId = message.chat.id;
   bot.sendMessage(chatId, "🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱");
 });
 
 bot.onText(/\marco/, message => {
-  const chatId = message.chat.id;
+  chatId = message.chat.id;
   bot.sendMessage(chatId, "omg that isn't even implemented");
 });
 
@@ -40,10 +36,12 @@ bot.onText(/\marco/, message => {
 client.on('connect', function () { // When connected
 
   // subscribe to a topic
-  client.subscribe('/space/sensor/movement', function () {
+  client.subscribe('/buzz', function () {
+
     // when a message arrives, do something with it
     client.on('message', function (topic, message, packet) {
-      lastMovement = Math.floor(Date.now() / 1000);
+      bot.sendMessage(chatId, '🛎️👋 => Buzz acknowleged from the space');
+      pendingBuzz = 0;
     });
   });
 
