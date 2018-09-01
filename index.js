@@ -7,7 +7,7 @@ let chatId = -1001297263871;
 let pendingBuzz = 0;
 const allowedChats = [-1001297263871, 301807021];
 
-let auth = (chat_id) => {
+let authenticate = (chat_id) => {
   return new Promise((resolve, reject) => {
     if(allowedChats.indexOf(chat_id) > 0){
       resolve();
@@ -20,14 +20,14 @@ let auth = (chat_id) => {
 };
 
 bot.onText(/\/status/, message => {
-  auth(message.chat.id).then(() => {
+  authenticate(message.chat.id).then(() => {
     bot.sendMessage(chatId, '🤖!');
   });
 });
 
 bot.onText(/\/buzz/, message => {
 
-  auth(message.chat.id).then(() => {
+  authenticate(message.chat.id).then(() => {
     if (pendingBuzz) {
       bot.sendMessage(chatId, '🛎️⛔ => Unanswered buzz already sent recently');
     } else {
@@ -40,13 +40,13 @@ bot.onText(/\/buzz/, message => {
 });
 
 bot.onText(/\meowwwwwwwwww/, message => {
-  auth(message.chat.id).then(() => {
+  authenticate(message.chat.id).then(() => {
     bot.sendMessage(chatId, "🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱");
   });
 });
 
 bot.onText(/\marco/, message => {
-  auth(message.chat.id).then(() => {
+  authenticate(message.chat.id).then(() => {
     bot.sendMessage(chatId, "omg that isn't even implemented");
   });
 });
