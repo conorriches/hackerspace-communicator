@@ -8,6 +8,7 @@ let pendingBuzz = 0;
 
 bot.onText(/\/status/, message => {
   chatId = message.chat.id;
+  console.log(chatId);
   bot.sendMessage(message.chat.id, '🤖!');
 });
 
