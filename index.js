@@ -8,6 +8,7 @@ let pendingBuzz = 0;
 const allowedChats = [-1001297263871, 301807021];
 
 let authenticate = (chat_id) => {
+  console.log("CHAT ID: " + chat_id);
   return new Promise((resolve, reject) => {
     if(allowedChats.indexOf(chat_id) > 0){
       resolve();
@@ -73,11 +74,3 @@ client.on('connect', function () { // When connected
   });
 
 });
-
-bot.on('callback_query', message => {
-  const msg = message.message;
-  const answer = message.data;
-
-  bot.sendMessage(msg.chat.id, answer);
-});
-
