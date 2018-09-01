@@ -41,6 +41,8 @@ client.on('connect', function () { // When connected
 
     // when a message arrives, do something with it
     client.on('message', function (topic, message, packet) {
+      console.log("===================== GOT MESSAGE ON BUZZ TOPIC");
+      console.log(message);
       bot.sendMessage(chatId, '🛎️👋 => Buzz acknowleged from the space');
       pendingBuzz = 0;
     });
