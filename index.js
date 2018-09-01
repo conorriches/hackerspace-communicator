@@ -4,12 +4,15 @@ const mqtt_url = url.parse(process.env.CLOUDMQTT_URL || 'mqtt://localhost:1883')
 const auth = (mqtt_url.aexputh || ':').split(':');
 const client = mqtt.connect(mqtt_url, { username: auth[0], password: auth[1] });
 
+let activeChats = [];
 let pendingBuzz = 0;
 
 let authenticate = (chat_id) => {
   console.log("CHAT ID: " + chat_id);
+
   return new Promise((resolve, reject) => {
     if (true) {
+      activeChats.push(chat_id);
       resolve();
     } else {
       bot.sendMessage(chat_id, '⛔ ENOENT ⛔');
@@ -61,14 +64,14 @@ client.on('connect', function () { // When connected
     client.on('message', function (topic, message, packet) {
 
       if (topic === 'buzz/ack') {
-        allowedChats.forEach(chatId => {
+        aactiveChats.forEach(chatId => {
           pendingBuzz && bot.sendMessage(chatId, '🛎️👋 => Buzz acknowleged from the space');
         });
         pendingBuzz = 0;
       }
 
       if (topic === 'buzz/dnd') {
-        allowedChats.forEach(chatId => {
+        activeChats.forEach(chatId => {
           pendingBuzz && bot.sendMessage(chatId, '🛎️🔕 => DND mode is active, buzz not announced.');
         });
       }
