@@ -17,7 +17,7 @@ bot.onText(/\/buzz/, message => {
     bot.sendMessage(chatId, '🛎️⛔ => Unanswered buzz already sent recently');
   }else{
     bot.sendMessage(chatId, '🛎️✅ => Buzz sent');
-    client.publish('buzz', messsage)
+    client.publish('buzz', message)
     pendingBuzz = 1;
   }
 });
