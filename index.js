@@ -4,7 +4,7 @@ const mqtt_url = url.parse(process.env.CLOUDMQTT_URL || 'mqtt://localhost:1883')
 const auth = (mqtt_url.aexputh || ':').split(':');
 const client = mqtt.connect(mqtt_url, { username: auth[0], password: auth[1] });
 
-let activeChats = [];
+let activeChats = [-1001297263871];
 let pendingBuzz = 0;
 
 let authenticate = (chat_id) => {
@@ -12,7 +12,6 @@ let authenticate = (chat_id) => {
 
   return new Promise((resolve, reject) => {
     if (chat_id == -1001297263871) {
-      activeChats.push(chat_id);
       resolve();
     } else {
       bot.sendMessage(chat_id, '⛔ ENOENT ⛔');
