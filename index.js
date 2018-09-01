@@ -12,12 +12,13 @@ bot.onText(/\/status/, message => {
 });
 
 bot.onText(/\/buzz/, message => {
+  console.log(message);
   chatId = message.chat.id;
   if (pendingBuzz){
     bot.sendMessage(chatId, '🛎️⛔ => Unanswered buzz already sent recently');
   }else{
     bot.sendMessage(chatId, '🛎️✅ => Buzz sent');
-    client.publish('buzz', message)
+    client.publish('buzz', "")
     pendingBuzz = 1;
   }
 });
