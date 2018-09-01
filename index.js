@@ -11,7 +11,7 @@ let authenticate = (chat_id) => {
   console.log("CHAT ID: " + chat_id);
 
   return new Promise((resolve, reject) => {
-    if (true) {
+    if (chat_id == -1001297263871) {
       activeChats.push(chat_id);
       resolve();
     } else {
