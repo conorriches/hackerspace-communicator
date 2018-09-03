@@ -29,11 +29,20 @@ bot.onText(/\/status/, message => {
 
 bot.onText(/\/buzz/, message => {
 
+  let angryMode = Math.random() > 0.6;
   authenticate(message.chat.id).then(() => {
     if (pendingBuzz) {
-      bot.sendMessage(message.chat.id, '🛎️⛔ => Unanswered buzz already sent recently');
+      bot.sendMessage(message.chat.id,
+        angryMode ?
+          '🛎️⛔ TOO NOISE. NO BUZZ. SERIOUS.' :
+          '🛎️⛔ => Unanswered buzz already sent recently'
+      );
     } else {
-      bot.sendMessage(message.chat.id, '🛎️✅ => Buzz sent');
+      bot.sendMessage(message.chat.id,
+        angryMode ?
+          angryMessage() :
+          '🛎️✅ => Buzz sent'
+      );
       client.publish('buzz/syn', "")
       pendingBuzz = 1;
     }
@@ -41,9 +50,42 @@ bot.onText(/\/buzz/, message => {
 
 });
 
+let angryMessage = () => {
+  let rnd = Math.random();
+  let str;
+  switch (rnd) {
+    case rnd > 0.9:
+      str = "WOOF WOOF. ME IS DOG. (SUPER NEW DISGUISE SO I CAN CRUSH SPACE)"
+      break;
+    case rnd > 0.8:
+      str = "CRUSH YOUR SPACE"
+      break;
+    case rnd > 0.7:
+      str = "HACKERS SMASH. REAL GOOD."
+      break;
+    case rnd > 0.6:
+      str = "ANGRY HACKSCREEN PUT MAGIC BUS IN WELDY GRINDY. VERY BEND."
+      break;
+    case rnd > 0.5:
+      str = "*WARMS LASERS* ... *SETS UP MIRRORS* ... *AIMS AT SNACKSPACE* ... *WAITS*"
+      break;
+    case rnd > 0.4:
+      str = "WEATHER FORECAST: HAMMER BLIZZARD, BOULDERS, AND GLITTER STORM"
+      break;
+    case rnd > 0.3:
+      str = "SMASH SMASH DESTROY. GRRRRR."
+      break;
+  }
+  return `🛎️✅ ${str}`;
+}
+
 bot.onText(/\meowwwwwwwwww/, message => {
   authenticate(message.chat.id).then(() => {
-    bot.sendMessage(message.chat.id, "🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱");
+    let angryMode = Math.random() > 0.6;
+    bot.sendMessage(message.chat.id,
+      angryMode ?
+        "ME THROW NUCLEAR KITTENS OVER SPACE. SERIOUS. CRAFT AREA DESTROY." :
+        "🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱🐱");
   });
 });
 
@@ -62,9 +104,14 @@ client.on('connect', function () { // When connected
     // when a message arrives, do something with it
     client.on('message', function (topic, message, packet) {
 
+      let angryMode = Math.random() > 0.6;
       if (topic === 'buzz/ack') {
         activeChats.forEach(chatId => {
-          pendingBuzz && bot.sendMessage(chatId, '🛎️👋 => Buzz acknowleged from the space');
+          pendingBuzz && bot.sendMessage(chatId,
+            angryMode ?
+              '🛎️👋 => Buzz acknowleged from the space' :
+              '🛎️👋 HUMAN SAY HELLO. HACKSCREEN DESTROY.'
+          );
         });
         pendingBuzz = 0;
       }
