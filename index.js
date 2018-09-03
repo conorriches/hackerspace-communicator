@@ -72,8 +72,8 @@ let angryMessage = () => {
     case rnd > 0.4:
       str = "WEATHER FORECAST: HAMMER BLIZZARD, BOULDERS, AND GLITTER STORM"
       break;
-    case rnd > 0.3:
-      str = "SMASH SMASH DESTROY. GRRRRR."
+    default:
+      str = "ME MAKE NOISE. SMASH SMASH DESTROY. GRRRRR."
       break;
   }
   return `🛎️✅ ${str}`;
