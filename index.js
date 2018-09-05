@@ -21,34 +21,6 @@ let authenticate = (chat_id) => {
 
 };
 
-bot.onText(/\/status/, message => {
-  authenticate(message.chat.id).then(() => {
-    bot.sendMessage(message.chat.id, '🤖!');
-  });
-});
-
-bot.onText(/\/buzz/, message => {
-
-  let angryMode = Math.random() > 0.6;
-  authenticate(message.chat.id).then(() => {
-    if (pendingBuzz) {
-      bot.sendMessage(message.chat.id,
-        angryMode ?
-          '🛎️⛔ TOO NOISE. NO BUZZ. SERIOUS.' :
-          '🛎️⛔ => Unanswered buzz already sent recently'
-      );
-    } else {
-      bot.sendMessage(message.chat.id,
-        angryMode ?
-          angryMessage() :
-          '🛎️✅ => Buzz sent'
-      );
-      client.publish('buzz/syn', "")
-      pendingBuzz = 1;
-    }
-  });
-
-});
 
 let angryMessage = () => {
   let rnd = Math.random();
@@ -76,8 +48,39 @@ let angryMessage = () => {
       str = "ME MAKE NOISE. SMASH SMASH DESTROY. GRRRRR."
       break;
   }
-  return `🛎️✅ ${str}`;
+  return str;
 }
+
+
+
+bot.onText(/\/status/, message => {
+  authenticate(message.chat.id).then(() => {
+    bot.sendMessage(message.chat.id, '🤖!');
+  });
+});
+
+bot.onText(/\/buzz/, message => {
+
+  let angryMode = Math.random() > 0.6;
+  authenticate(message.chat.id).then(() => {
+    if (pendingBuzz) {
+      bot.sendMessage(message.chat.id,
+        angryMode ?
+          `🛎️⛔ ${angryMessage()}` :
+          '🛎️⛔ => Unanswered buzz already sent recently'
+      );
+    } else {
+      bot.sendMessage(message.chat.id,
+        angryMode ?
+          `🛎️✅ ${angryMessage()}` :
+          '🛎️✅ => Buzz sent'
+      );
+      client.publish('buzz/syn', "")
+      pendingBuzz = 1;
+    }
+  });
+
+});
 
 bot.onText(/\meowwwwwwwwww/, message => {
   authenticate(message.chat.id).then(() => {
