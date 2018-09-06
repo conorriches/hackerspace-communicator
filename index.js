@@ -113,7 +113,10 @@ let postMessage = (text, chatId, isUpdate = false) => {
         message_id: messageId,
         chat_id: chatId
       }
-    )
+    ).then(m => {
+      lastMessage.chat_id = chatId
+      lastMessage.message_id = m.mesage_id;
+    })
   } else {
 
     bot.sendMessage(
