@@ -111,8 +111,10 @@ let postMessage = (text, chatId, isUpdate = false) => {
 
   if (isUpdate && lastMessage.message_id) {
     console.log('Editing message');
+    let newText = lastMessage.value + "\n\n" + text;
+
     bot.editMessageText(
-      lastMessage.value + "\n\n" + text,
+      newText,
       {
         message_id: lastMessage.message_id,
         chat_id: chatId
@@ -132,6 +134,6 @@ let postMessage = (text, chatId, isUpdate = false) => {
     });
   }
 
-  lastMessage.value = text;
+  lastMessage.value = newText;
 
 };
