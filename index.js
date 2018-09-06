@@ -44,7 +44,7 @@ bot.onText(/\/buzz/, message => {
         true
       );
     } else {
-      messageId = bot.sendMessage(
+      messageId = postMessage(
         '🛎️ buzz sent',
         message.chat.id,
         false
