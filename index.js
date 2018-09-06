@@ -106,7 +106,11 @@ client.on('connect', function () { // When connected
 
 let postMessage = (text, chatId, isUpdate = false) => {
 
+  console.log("Last message object");
+  console.log(lastMessage);
+  
   if (isUpdate && lastMessage.message_id) {
+    console.log('Editing message');
     bot.editMessageText(
       lastMessage.value + "\n\n" + text,
       {
