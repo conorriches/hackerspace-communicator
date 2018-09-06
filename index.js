@@ -4,7 +4,6 @@ const mqtt_url = url.parse(process.env.CLOUDMQTT_URL || 'mqtt://localhost:1883')
 const auth = (mqtt_url.aexputh || ':').split(':');
 const client = mqtt.connect(mqtt_url, { username: auth[0], password: auth[1] });
 
-let activeChats = [-1001297263871];
 let pendingBuzz = 0;
 
 let lastMessage = {
@@ -17,6 +16,7 @@ let authenticate = (chat_id) => {
   console.log("CHAT ID: " + chat_id);
 
   return new Promise((resolve, reject) => {
+    resolve();
     if (chat_id == -1001297263871) {
       resolve();
     } else {
@@ -82,19 +82,15 @@ client.on('connect', function () { // When connected
     client.on('message', function (topic, message, packet) {
 
       if (topic === 'buzz/ack') {
-        activeChats.forEach(chatId => {
           pendingBuzz &&
-            postMessage('🛎️ buzz acknowleged', chatId, true);
-        });
+            postMessage('🛎️ buzz acknowleged', lastMessage.chat_id, true);
+        
         pendingBuzz = 0;
       }
 
       if (topic === 'buzz/dnd') {
-        activeChats.forEach(chatId => {
           pendingBuzz &&
-            postMessage('🛎️ DND mode active, not annoucned', chatId, true)
-
-        });
+            postMessage('🛎️ DND mode active, not annoucned', lastMessage.chat_id, true)
       }
 
 
