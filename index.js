@@ -114,7 +114,7 @@ let postMessage = (text, chatId, isUpdate = false) => {
     bot.editMessageText(
       lastMessage.value + "\n\n" + text,
       {
-        message_id: messageId,
+        message_id: lastMessage.message_id,
         chat_id: chatId
       }
     ).then(m => {
