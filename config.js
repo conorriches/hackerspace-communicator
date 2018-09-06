@@ -3,12 +3,9 @@ const TelegramBot = require('node-telegram-bot-api');
 // Telegram bot TOKEN from BotFather
 const TOKEN = process.env.TOKEN || 'INSERT_BOT_TOKEN';
 
-console.log("==========");
-
 // Heroku Config Vars
 const url = process.env.APP_URL;
 const port = process.env.PORT || 443;
-
 
 let bot;
 if (process.env.NODE_ENV === 'dev') {
