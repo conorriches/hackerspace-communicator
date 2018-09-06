@@ -128,7 +128,7 @@ let postMessage = (text, chatId, isUpdate = false) => {
     ).then(m => {
       lastMessage.chat_id = chatId
       lastMessage.message_id = m.message_id;
-      lastMessage.value = newText;
+      lastMessage.value = text;
     });
 
   }
