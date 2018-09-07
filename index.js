@@ -54,13 +54,13 @@ bot.onText(/\/buzz$/, message => {
   authenticate(message.chat.id).then(() => {
     if (pendingBuzz) {
       postMessage(
-        '🛎️ buzz already pending',
+        '🚫 pending...',
         message.chat.id,
         true
       );
     } else {
       messageId = postMessage(
-        '🛎️ buzz sent',
+        '📣 🎉 The hackerspace has been buzzed!',
         message.chat.id
       );
       client.publish('buzz/syn', "")
@@ -81,14 +81,14 @@ client.on('connect', function () { // When connected
 
       if (topic === 'buzz/ack') {
         pendingBuzz &&
-          postMessage('🛎️ buzz acknowleged', lastMessage.chat_id, true);
+          postMessage('✅ buzz acknowleged', lastMessage.chat_id, true);
 
         pendingBuzz = 0;
       }
 
       if (topic === 'buzz/dnd') {
         pendingBuzz &&
-          postMessage('🛎️ DND mode active, not annoucned', lastMessage.chat_id, true)
+          postMessage('🔇 DND on - not annoucned', lastMessage.chat_id, true)
       }
 
 
@@ -106,7 +106,8 @@ let postMessage = (text, chatId, isUpdate = false) => {
 
   if (isUpdate && lastMessage.message_id) {
     console.log('Editing message');
-    let newText = lastMessage.value + "\n\n" + text;
+
+    let newText = `${lastMessage.value}\n\n${text} (${getPrettyTime()})`;
 
     bot.editMessageText(
       newText,
@@ -136,3 +137,20 @@ let postMessage = (text, chatId, isUpdate = false) => {
 
 
 };
+
+let getPrettyTime = () => {
+  var d = new Date();
+  
+  var min = d.getMinutes();
+  if (min < 10) {
+    min = "0" + min;
+  }
+
+  var hr = d.getHours();
+  if (hr < 10) {
+    hr = "0" + hr;
+  }
+
+  
+  return hr + ":" + min;
+}
