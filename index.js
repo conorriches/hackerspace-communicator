@@ -11,12 +11,14 @@ let lastMessage = {
   value: ""
 };
 
-let authenticate = (chat_id) => {
+/**
+ * Given a chat ID, allows or denies further execution when chained.
+ * @param {int} chat_id 
+ */
+const authenticate = (chat_id) => {
   console.log("Authenticating chat #" + chat_id);
 
   return new Promise((resolve, reject) => {
-    resolve();
-    return;
     if (chat_id == -1001297263871) {
       resolve();
     } else {
@@ -27,12 +29,18 @@ let authenticate = (chat_id) => {
 
 };
 
+/**
+ * Am I working?
+ */
 bot.onText(/\/status/, message => {
   authenticate(message.chat.id).then(() => {
     postMessage('🤖', message.chat.id);
   });
 });
 
+/**
+ * Hangover from my previous bot. 
+ */
 bot.onText(/\meow+/, message => {
   authenticate(message.chat.id).then(() => {
     let angryMode = Math.random() >= 0.5;
@@ -43,30 +51,27 @@ bot.onText(/\meow+/, message => {
   });
 });
 
-bot.onText(/\marco/, message => {
-  authenticate(message.chat.id).then(() => {
-    postMessage("polo!", message.chat.id);
-  });
-});
-
-
-bot.onText(/\/buzz$/, message => {
-  authenticate(message.chat.id).then(() => {
-    if (pendingBuzz) {
-      postMessage(
-        '🚫 pending...',
-        message.chat.id,
-        true
-      );
-    } else {
-      messageId = postMessage(
-        '📣 🎉 The hackerspace has been buzzed!',
-        message.chat.id
-      );
-      client.publish('buzz/syn', "")
-      pendingBuzz = 1;
-    }
-  });
+/**
+ * When a user posts "/buzz", perform the logic.
+ */
+bot.onText(/^\/buzz$/, message => {
+  authenticate(message.chat.id) //Check the
+    .then(() => {
+      if (pendingBuzz) {
+        postMessage(
+          '🚫 pending...',
+          message.chat.id,
+          true
+        );
+      } else {
+        messageId = postMessage(
+          '📣 🎉 The hackerspace has been buzzed!',
+          message.chat.id
+        );
+        client.publish('buzz/syn', "")
+        pendingBuzz = 1;
+      }
+    });
 
 });
 
@@ -139,18 +144,13 @@ let postMessage = (text, chatId, isUpdate = false) => {
 };
 
 let getPrettyTime = () => {
-  var d = new Date();
-  
-  var min = d.getMinutes();
-  if (min < 10) {
-    min = "0" + min;
-  }
+  const d = new Date();
 
-  var hr = d.getHours();
-  if (hr < 10) {
-    hr = "0" + hr;
-  }
+  let min = d.getMinutes();
+  (min < 10)  min = "0" + min;
 
-  
-  return hr + ":" + min;
+  let hr = d.getHours();
+  if (hr < 10) hr = "0" + hr;
+
+  return `${hr} : ${min}`;
 }
