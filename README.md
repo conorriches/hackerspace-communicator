@@ -1,4 +1,4 @@
-# Hackspace Communicator
+# Hackerspace Communicator
 Telegram bot and Arduino sketch talking over MQTT, which together allows people in a group chat to "buzz" their hackerspace.
  
 <img src="https://conorriches.co.uk/wp-content/uploads/2018/09/IMG_20180905_231953-225x300.jpg" >
