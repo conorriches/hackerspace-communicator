@@ -152,5 +152,5 @@ let getPrettyTime = () => {
   let hr = d.getHours();
   if (hr < 10) hr = "0" + hr;
 
-  return `${hr} : ${min}`;
+  return `${hr}:${min}`;
 }
