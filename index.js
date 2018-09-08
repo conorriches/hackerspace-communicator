@@ -147,7 +147,7 @@ let getPrettyTime = () => {
   const d = new Date();
 
   let min = d.getMinutes();
-  (min < 10)  min = "0" + min;
+  if (min < 10)  min = "0" + min;
 
   let hr = d.getHours();
   if (hr < 10) hr = "0" + hr;
